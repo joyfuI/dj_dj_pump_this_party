@@ -1,0 +1,75 @@
+{% extends '_base.jinja' %}
+{% block content %}
+
+<main class="container" data-controller="{{ arg['name'] }}" data-home-refresh-interval-value="1000">
+    <form class="row mt-5 mb-3" data-action="submit->home#postItem">
+        <div class="col-auto">
+            <label for="url" class="col-form-label">유튜브 주소</label>
+        </div>
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-youtube"></i>
+                </span>
+                <input id="url" name="url" class="form-control" type="url"
+                    placeholder="https://www.youtube.com/watch?v=" data-home-target="url">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
+                검색
+            </button>
+        </div>
+    </form>
+    <div class="row mb-3">
+        <div class="col" data-home-target="playlist"></div>
+    </div>
+    <div class="row">
+        <div class="col btn-group" role="group">
+            <button class="btn btn-secondary" type="button" data-action="click->home#putCommand" data-cmd="prev">
+                <i class="bi bi-skip-start-fill"></i>
+            </button>
+            <button class="btn btn-dark" type="button" data-action="click->home#putCommand" data-cmd="play">
+                <i class="bi bi-play-fill"></i>
+            </button>
+            <button class="btn btn-secondary" type="button" data-action="click->home#putCommand" data-cmd="next">
+                <i class="bi bi-skip-end-fill"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="searchModalLabel">유튜브 뮤직 검색</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row mb-3" data-action="submit->home#getSearch">
+                        <div class="col">
+                            <div class="input-group">
+                                <input id="search" name="search" class="form-control" type="text"
+                                    data-home-target="search">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col" data-home-target="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="{{ url_for('static', filename='%s.js' % arg['name']) }}"></script>
+
+{% endblock %}
