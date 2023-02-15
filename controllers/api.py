@@ -16,13 +16,19 @@ player = Player()
 def get_player():
     playlist = player.playlist.playlist
     is_playing = player.is_playing()
-    current = player.playlist.get_current().id
-    return jsonify({"playlist": playlist, "isPlaying": is_playing, "current": current})
+    current = player.playlist.get_current()
+    return jsonify(
+        {
+            "playlist": playlist,
+            "isPlaying": is_playing,
+            "current": current.id if current is not None else None,
+        }
+    )
 
 
 @blueprint.route("/item", methods=["POST"])
 def post_item():
-    nickname = request.headers.get('DDPTP-name')
+    nickname = request.headers.get("DDPTP-name")
     data = request.get_json()
     url = data["url"]
     player.playlist.add_after_last(url, nickname)
