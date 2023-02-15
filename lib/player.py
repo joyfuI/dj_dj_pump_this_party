@@ -52,12 +52,12 @@ class Player:
         return result == 0
 
     def stop(self) -> None:
-        if self.player is None:
+        if self.player is not None:
             self.player.stop()
 
     def pause(self) -> bool:
         playing = self.is_playing()
-        if self.player is None:
+        if self.player is not None:
             self.player.pause()
         return not playing
 

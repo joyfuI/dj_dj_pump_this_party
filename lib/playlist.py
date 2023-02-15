@@ -28,6 +28,11 @@ class Playlist:
     def up_id(self, yt_id: int) -> None:
         index = find_index(lambda yt: yt.id == yt_id, self.playlist)
         if index > 0:
+            if self.get_current() in [self.playlist[index], self.playlist[index - 1]]:
+                if self.playlist[index] == self.get_current():
+                    self.prev()
+                else:
+                    self.next()
             self.playlist[index], self.playlist[index - 1] = (
                 self.playlist[index - 1],
                 self.playlist[index],
@@ -36,6 +41,11 @@ class Playlist:
     def down_id(self, yt_id: int) -> None:
         index = find_index(lambda yt: yt.id == yt_id, self.playlist)
         if index < len(self.playlist) - 1:
+            if self.get_current() in [self.playlist[index], self.playlist[index + 1]]:
+                if self.playlist[index] == self.get_current():
+                    self.next()
+                else:
+                    self.prev()
             self.playlist[index], self.playlist[index + 1] = (
                 self.playlist[index + 1],
                 self.playlist[index],
