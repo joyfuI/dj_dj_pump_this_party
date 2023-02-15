@@ -41,9 +41,11 @@ class Playlist:
     def next(self) -> Youtube:
         if self.index < len(self.playlist) - 1:
             self.index += 1
-        return self.get_current()
+            return self.get_current()
+        return None
 
     def prev(self) -> Youtube:
         if self.index > 0:
             self.index -= 1
-        return self.get_current()
+            return self.get_current()
+        return None

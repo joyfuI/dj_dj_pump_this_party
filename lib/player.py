@@ -16,14 +16,29 @@ vlc = __import__("vlc")
 
 class Player:
     def __init__(self):
-        self.player = vlc.MediaPlayer()
+        self.player = None
         self.playlist = Playlist()
-        # 재생이 끝나면 콜백 호출
-        self.player.event_manager().event_attach(
+
+    def new_player(self, mrl: str):
+        instance = vlc.MediaPlayer()
+        # 재생 종료 콜백
+        instance.event_manager().event_attach(
             vlc.EventType.MediaPlayerEndReached, self._callback_end
         )
+        # 일시정지 콜백
+        instance.event_manager().event_attach(
+            vlc.EventType.MediaPlayerPaused, self._callback_pause
+        )
+        # 재생오류 콜백
+        instance.event_manager().event_attach(
+            vlc.EventType.MediaPlayerEncounteredError, self._callback_error
+        )
+        instance.set_mrl(mrl)
+        return instance
 
     def is_playing(self) -> bool:
+        if self.player is None:
+            return False
         return bool(self.player.is_playing())
 
     def play(self) -> bool:
@@ -31,26 +46,34 @@ class Player:
         print("재생", yt)
         if not yt:
             return False
-        print("재생1")
         url = yt.get_bast_audio_url()
-        print("재생2", url)
-        self.player.set_mrl(url)
-        print("재생3")
+        self.player = self.new_player(url)
         result = self.player.play()  # 성공: 0, 실패: -1
-        print("재생4", result)
         return result == 0
 
     def stop(self) -> None:
-        self.player.stop()
+        if self.player is None:
+            self.player.stop()
 
     def pause(self) -> bool:
         playing = self.is_playing()
-        self.player.pause()
+        if self.player is None:
+            self.player.pause()
         return not playing
 
+    # 재생 종료 콜백
     def _callback_end(self, _):
-        print("재생 종료")
-        self.playlist.next()
-        print("재생 종료1")
-        self.play()  # 여기가 문제
-        print("재생 종료2")
+        print("영상종료")
+        # 다음영상 재생
+        if self.playlist.next() is not None:
+            self.play()
+
+    # 일시정지 콜백
+    def _callback_pause(self, _):
+        print("일시정지")
+
+    # 재생오류 콜백
+    def _callback_error(self, _):
+        print("오류")
+        # 재시도
+        self.play()
