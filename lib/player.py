@@ -65,6 +65,31 @@ class Player:
             self.player.pause()
         return not playing
 
+    def get_volume(self) -> int:
+        if self.player is None:
+            return 100
+        result = self.player.audio_get_volume()
+        if result < 0:
+            # -1을 반환할 때가 있음
+            return 100
+        return result  # 0 ~ 100
+
+    def set_volume(self, volume: int):
+        result = self.player.audio_set_volume(volume)  # 성공: 0, 실패: -1
+        return result == 0
+
+    def get_position(self) -> int:
+        if self.player is None:
+            return 0
+        result = self.player.get_position()
+        if result < 0:
+            # -1을 반환할 때가 있음
+            return 0
+        return result * 100  # 0 ~ 100
+
+    def set_position(self, position: int) -> None:
+        return self.player.set_position(position / 100)
+
     # 재생 종료 콜백
     def _callback_end(self, _):
         print("영상종료")

@@ -17,11 +17,15 @@ def get_player():
     playlist = player.playlist.playlist
     is_playing = player.is_playing()
     current = player.get_current()
+    volume = player.get_volume()
+    position = player.get_position()
     return jsonify(
         {
             "playlist": playlist,
             "isPlaying": is_playing,
             "current": current.id if current is not None else None,
+            "volume": volume,
+            "position": position,
         }
     )
 
