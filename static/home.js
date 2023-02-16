@@ -11,17 +11,35 @@ class HomeController extends Stimulus.Controller {
     //   localStorage.setItem('name', name);
     // }
 
-    this.getPlayer();
+    this.visibilitychangeEventListener = this.handleVisibilitychange.bind(this);
     if (this.hasRefreshIntervalValue) {
       this.startRefreshing();
+      document.addEventListener(
+        'visibilitychange',
+        this.visibilitychangeEventListener
+      );
+    } else {
+      this.getPlayer();
     }
   }
 
   disconnect() {
-    this.stopRefreshing();
+    document.removeEventListener(
+      'visibilitychange',
+      this.visibilitychangeEventListener
+    );
+  }
+
+  handleVisibilitychange() {
+    if (document.visibilityState === 'visible') {
+      this.startRefreshing();
+    } else {
+      this.stopRefreshing();
+    }
   }
 
   startRefreshing() {
+    this.getPlayer();
     this.refreshTimer = setInterval(() => {
       this.getPlayer();
     }, this.refreshIntervalValue);
