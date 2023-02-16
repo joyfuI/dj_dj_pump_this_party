@@ -16,7 +16,7 @@ player = Player()
 def get_player():
     playlist = player.playlist.playlist
     is_playing = player.is_playing()
-    current = player.playlist.get_current()
+    current = player.get_current()
     return jsonify(
         {
             "playlist": playlist,
@@ -37,7 +37,12 @@ def post_item():
 
 @blueprint.route("/item/<int:yt_id>", methods=["DELETE"])
 def delete_item(yt_id: int):
-    player.playlist.del_id(yt_id)
+    if player.is_playing() and player.get_current() == player.playlist.find_id(yt_id):
+        player.stop()
+        player.playlist.del_id(yt_id)
+        player.play()
+    else:
+        player.playlist.del_id(yt_id)
     return jsonify({})
 
 

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from lib.playlist import Playlist
 from lib.utill import add_path_env
+from lib.youtube import Youtube
 
 load_dotenv(verbose=True)
 VLC_PATH = os.getenv("VLC_PATH")
@@ -41,8 +42,11 @@ class Player:
             return False
         return bool(self.player.is_playing())
 
+    def get_current(self) -> Youtube:
+        return self.playlist.get_current()
+
     def play(self) -> bool:
-        yt = self.playlist.get_current()
+        yt = self.get_current()
         print("재생", yt)
         if not yt:
             return False

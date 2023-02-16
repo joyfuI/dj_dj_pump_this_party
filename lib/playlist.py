@@ -23,6 +23,8 @@ class Playlist:
 
     def del_id(self, yt_id: int) -> None:
         index = find_index(lambda yt: yt.id == yt_id, self.playlist)
+        if index < self.index:
+            self.prev()
         self.playlist.pop(index)
 
     def up_id(self, yt_id: int) -> None:
@@ -55,10 +57,16 @@ class Playlist:
         if self.index < len(self.playlist) - 1:
             self.index += 1
             return self.get_current()
+        self.index = len(self.playlist) - 1
         return None
 
     def prev(self) -> Youtube:
         if self.index > 0:
             self.index -= 1
             return self.get_current()
+        self.index = 0
         return None
+
+    def find_id(self, yt_id: int) -> Youtube:
+        index = find_index(lambda yt: yt.id == yt_id, self.playlist)
+        return self.playlist[index]
