@@ -1,7 +1,7 @@
 'use strict';
 
 class HomeController extends Stimulus.Controller {
-  static targets = ['url', 'playlist', 'search', 'result'];
+  static targets = ['url', 'playlist', 'playButton', 'search', 'result'];
   static values = { refreshInterval: Number };
 
   connect() {
@@ -13,7 +13,7 @@ class HomeController extends Stimulus.Controller {
 
     this.visibilitychangeEventListener = this.handleVisibilitychange.bind(this);
     if (this.hasRefreshIntervalValue) {
-      this.startRefreshing();
+      this.visibilitychangeEventListener();
       document.addEventListener(
         'visibilitychange',
         this.visibilitychangeEventListener
@@ -96,6 +96,9 @@ class HomeController extends Stimulus.Controller {
 </div>`
     );
     this.playlistTarget.innerHTML = html.join('');
+    this.playButtonTarget.className = isPlaying
+      ? 'bi bi-stop-fill'
+      : 'bi bi-play-fill';
   }
 
   async postItem(e) {

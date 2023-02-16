@@ -33,7 +33,7 @@
                 <i class="bi bi-skip-start-fill"></i>
             </button>
             <button class="btn btn-dark" type="button" data-action="click->home#putCommand" data-cmd="play">
-                <i class="bi bi-play-fill"></i>
+                <i class="bi bi-play-fill" data-home-target="playButton"></i>
             </button>
             <button class="btn btn-secondary" type="button" data-action="click->home#putCommand" data-cmd="next">
                 <i class="bi bi-skip-end-fill"></i>
@@ -67,7 +67,6 @@
             </div>
         </div>
     </div>
-
 </main>
 
 <script src="{{ url_for('static', filename='%s.js' % arg['name']) }}"></script>
