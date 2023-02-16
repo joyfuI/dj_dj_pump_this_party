@@ -69,8 +69,10 @@ class Player:
     def _callback_end(self, _):
         print("영상종료")
         # 다음영상 재생
-        if self.playlist.next() is not None:
-            self.play()
+        if self.playlist.next() is None:
+            # 마지막 영상이 끝나면 처음 영상부터 다시시작
+            self.playlist.index = 0
+        self.play()
 
     # 일시정지 콜백
     def _callback_pause(self, _):
