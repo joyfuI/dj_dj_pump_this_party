@@ -46,7 +46,7 @@ class HomeController extends Stimulus.Controller {
     <div class="col-md-7">
       <div class="card-body">
         <h5 class="card-title ${item.id === current ? 'fw-bolder' : ''}">
-          <a href="${item.url} target="_blank" rel="noreferrer">${
+          <a href="${item.url}" target="_blank" rel="noreferrer">${
         item.title
       }</a>
         </h5>
