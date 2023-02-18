@@ -77,7 +77,7 @@ class HomeController extends Stimulus.Controller {
     <div class="col-md-2">
       <img class="img-fluid rounded-start" src="${item.thumbnail}">
     </div>
-    <div class="col-md-7">
+    <div class="col-md-7 align-self-center">
       <div class="card-body">
         <h5 class="card-title ${item.id === current ? 'fw-bolder' : ''}">
           <a href="${item.url}" target="_blank" rel="noreferrer">${
@@ -166,25 +166,18 @@ class HomeController extends Stimulus.Controller {
     const html = result.map(
       (item) => `<div class="card">
   <div class="row g-0">
-    <div class="col-md-2">
+    <div class="col-2">
       <img class="img-fluid rounded-start" src="${item.thumbnail}">
     </div>
-    <div class="col-md-8">
+    <div class="col-8 align-self-center">
       <div class="card-body">
-        <h6 class="card-title">
-          <a href="${item.url}" target="_blank" rel="noreferrer">${
-        item.title
-      }</a>
+        <h6 class="card-title m-0">
+          <a href="${item.url}" target="_blank" rel="noreferrer">${item.title}</a>
         </h6>
-        <p class="card-text">
-          <small class="text-muted">${secondToString(item.duration)}</small>
-        </p>
       </div>
     </div>
-    <div class="col-md-2 p-3 align-self-center text-end">
-      <button class="btn btn-primary" type="button" data-action="click->home#postSearchItem" data-bs-dismiss="modal" data-url="${
-        item.url
-      }">
+    <div class="col-auto px-3 align-self-center text-end">
+      <button class="btn btn-primary" type="button" data-action="click->home#postSearchItem" data-bs-dismiss="modal" data-url="${item.url}">
         <i class="bi bi-plus"></i>
       </button>
     </div>

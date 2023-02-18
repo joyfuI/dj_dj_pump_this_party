@@ -13,7 +13,6 @@ def _convert_data(item: dict[str, Any]) -> dict[str, Any]:
         "url": f"https://www.youtube.com/watch?v={item['videoId']}",
         "title": f'{item["title"]} - {artist}',
         "thumbnail": item["thumbnails"][-1]["url"],
-        "duration": item["duration_seconds"],
     }
 
 
