@@ -32,10 +32,10 @@ def get_player():
 
 @blueprint.route("/item", methods=["POST"])
 def post_item():
-    nickname = request.headers.get("DDPTP-name")
+    # nickname = request.headers.get("DDPTP-name")
     data = request.get_json()
     url = data["url"]
-    player.playlist.add_after_last(url, nickname)
+    player.playlist.add_after_last(url, request.remote_addr)
     return jsonify({})
 
 
