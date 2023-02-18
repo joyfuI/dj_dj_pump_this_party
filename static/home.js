@@ -8,7 +8,8 @@ class HomeController extends Stimulus.Controller {
     'playButton',
     'volume',
     'search',
-    'result',
+    'searchResult',
+    'chartResult',
   ];
   static values = { refreshInterval: Number };
 
@@ -63,6 +64,28 @@ class HomeController extends Stimulus.Controller {
     if (this.refreshTimer) {
       clearInterval(this.refreshTimer);
     }
+  }
+
+  makeModalCard(item) {
+    return `<div class="card">
+  <div class="row g-0">
+    <div class="col-2">
+      <img class="img-fluid rounded-start" src="${item.thumbnail}">
+    </div>
+    <div class="col-8 align-self-center">
+      <div class="card-body">
+        <h6 class="card-title m-0">
+          <a href="${item.url}" target="_blank" rel="noreferrer">${item.title}</a>
+        </h6>
+      </div>
+    </div>
+    <div class="col-auto px-3 align-self-center text-end">
+      <button class="btn btn-primary" type="button" data-action="click->home#postItem" data-bs-dismiss="modal" data-url="${item.url}">
+        <i class="bi bi-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>`;
   }
 
   async getPlayer() {
@@ -122,9 +145,8 @@ class HomeController extends Stimulus.Controller {
 
   async postItem(e) {
     e.preventDefault();
-    await requestPost('/api/item', {
-      url: this.urlTarget.value,
-    });
+    const url = e.currentTarget.dataset.url ?? this.urlTarget.value;
+    await requestPost('/api/item', { url });
     this.getPlayer();
   }
 
@@ -163,36 +185,16 @@ class HomeController extends Stimulus.Controller {
     const { result } = await requestGet('/api/search', {
       q: this.searchTarget.value,
     });
-    const html = result.map(
-      (item) => `<div class="card">
-  <div class="row g-0">
-    <div class="col-2">
-      <img class="img-fluid rounded-start" src="${item.thumbnail}">
-    </div>
-    <div class="col-8 align-self-center">
-      <div class="card-body">
-        <h6 class="card-title m-0">
-          <a href="${item.url}" target="_blank" rel="noreferrer">${item.title}</a>
-        </h6>
-      </div>
-    </div>
-    <div class="col-auto px-3 align-self-center text-end">
-      <button class="btn btn-primary" type="button" data-action="click->home#postSearchItem" data-bs-dismiss="modal" data-url="${item.url}">
-        <i class="bi bi-plus"></i>
-      </button>
-    </div>
-  </div>
-</div>`
-    );
-    this.resultTarget.innerHTML = html.join('');
+    const html = result.map(this.makeModalCard);
+    this.searchResultTarget.innerHTML = html.join('');
   }
 
-  async postSearchItem({ currentTarget }) {
-    const { url } = currentTarget.dataset;
-    await requestPost('/api/item', {
-      url,
-    });
-    this.getPlayer();
+  async getChart({ currentTarget }) {
+    const { category } = currentTarget.dataset;
+    this.chartResultTarget.innerHTML = '';
+    const { result } = await requestGet(`/api/chart/${category}`);
+    const html = result.map(this.makeModalCard);
+    this.chartResultTarget.innerHTML = html.join('');
   }
 }
 

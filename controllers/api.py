@@ -3,7 +3,7 @@ import os
 from flask import Blueprint, jsonify, request
 
 from lib.player import Player
-from lib.youtube_music import search_song
+from lib.youtube_music import get_charts, search_song
 
 basename = os.path.basename(__file__)
 name = os.path.splitext(basename)[0]
@@ -102,7 +102,13 @@ def put_player_volume():
 
 
 @blueprint.route("/search", methods=["GET"])
-def get_search_song():
+def get_search():
     q = request.args["q"]
     result = search_song(q)
+    return jsonify({"result": result})
+
+
+@blueprint.route("/chart/<category>", methods=["GET"])
+def get_chart(category: str):
+    result = get_charts(category)
     return jsonify({"result": result})
