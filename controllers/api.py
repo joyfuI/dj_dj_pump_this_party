@@ -93,6 +93,14 @@ def put_player_next():
     return jsonify({})
 
 
+@blueprint.route("/player/volume", methods=["PUT"])
+def put_player_volume():
+    data = request.get_json()
+    volume = data["volume"]
+    player.set_volume(volume)
+    return jsonify({})
+
+
 @blueprint.route("/search", methods=["GET"])
 def get_search_song():
     q = request.args["q"]

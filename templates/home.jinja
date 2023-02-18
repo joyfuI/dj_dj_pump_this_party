@@ -5,20 +5,16 @@
     <nav class="navbar navbar-expand fixed-top bg-light">
         <div class="container">
             <form class="flex-fill row" data-action="submit->home#postItem">
-                <div class="col-auto">
-                    <label for="url" class="col-form-label">유튜브 주소</label>
-                </div>
-                <div class="col">
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-youtube"></i>
-                        </span>
-                        <input id="url" name="url" class="form-control" type="url"
-                            placeholder="https://www.youtube.com/watch?v=" data-home-target="url">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="bi bi-plus"></i>
-                        </button>
-                    </div>
+                <label class="col-auto col-form-label" for="url">유튜브 주소</label>
+                <div class="col input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-youtube"></i>
+                    </span>
+                    <input id="url" name="url" class="form-control" type="url"
+                        placeholder="https://www.youtube.com/watch?v=" data-home-target="url">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-plus"></i>
+                    </button>
                 </div>
             </form>
 
@@ -34,16 +30,35 @@
 
     <nav class="navbar fixed-bottom bg-light">
         <div class="container">
-            <div class="btn-group flex-fill" role="group">
-                <button class="btn btn-secondary" type="button" data-action="click->home#putCommand" data-cmd="prev">
-                    <i class="bi bi-skip-start-fill"></i>
-                </button>
-                <button class="btn btn-dark" type="button" data-action="click->home#putCommand" data-cmd="play">
-                    <i class="bi bi-play-fill" data-home-target="playButton"></i>
-                </button>
-                <button class="btn btn-secondary" type="button" data-action="click->home#putCommand" data-cmd="next">
-                    <i class="bi bi-skip-end-fill"></i>
-                </button>
+            <div class="row justify-content-around flex-fill">
+                <div class="col-4"></div>
+                <div class="col-4 d-flex">
+                    <div class="btn-group flex-fill" role="group">
+                        <button class="btn btn-secondary" type="button" data-action="click->home#putCommand"
+                            data-cmd="prev">
+                            <i class="bi bi-skip-start-fill"></i>
+                        </button>
+                        <button class="btn btn-dark" type="button" data-action="click->home#putCommand" data-cmd="play">
+                            <i class="bi bi-play-fill" data-home-target="playButton"></i>
+                        </button>
+                        <button class="btn btn-secondary" type="button" data-action="click->home#putCommand"
+                            data-cmd="next">
+                            <i class="bi bi-skip-end-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-3 ms-auto">
+                    <div class="row">
+                        <label class="col-auto col-form-label" for="volume">
+                            <i class="bi bi-volume-down-fill"></i>
+                        </label>
+                        <div class="col align-self-center">
+                            <input id="volume" name="volume" class="form-range align-middle" type="range" value="100"
+                                min="0" max="100" step="1" data-home-target="volume" data-action="input->home#putVolume"
+                                data-bs-toggle="tooltip">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

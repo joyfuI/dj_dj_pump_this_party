@@ -18,6 +18,7 @@ vlc = __import__("vlc")
 class Player:
     def __init__(self):
         self.player = None
+        self.volume = 100
         self.playlist = Playlist()
 
     def new_player(self, mrl: str):
@@ -34,6 +35,7 @@ class Player:
         instance.event_manager().event_attach(
             vlc.EventType.MediaPlayerEncounteredError, self._callback_error
         )
+        instance.audio_set_volume(self.volume)
         instance.set_mrl(mrl)
         return instance
 
@@ -55,7 +57,7 @@ class Player:
         result = self.player.play()  # 성공: 0, 실패: -1
         return result == 0
 
-    def stop(self) -> None:
+    def stop(self):
         if self.player is not None:
             self.player.stop()
 
@@ -66,16 +68,15 @@ class Player:
         return not playing
 
     def get_volume(self) -> int:
-        if self.player is None:
-            return 100
-        result = self.player.audio_get_volume()
-        if result < 0:
-            # -1을 반환할 때가 있음
-            return 100
-        return result  # 0 ~ 100
+        return self.volume  # 0 ~ 100
 
-    def set_volume(self, volume: int):
+    def set_volume(self, volume: int) -> bool:
+        if self.player is None:
+            self.volume = volume
+            return True
         result = self.player.audio_set_volume(volume)  # 성공: 0, 실패: -1
+        if result == 0:
+            self.volume = volume
         return result == 0
 
     def get_position(self) -> int:
@@ -87,7 +88,7 @@ class Player:
             return 0
         return result * 100  # 0 ~ 100
 
-    def set_position(self, position: int) -> None:
+    def set_position(self, position: int):
         return self.player.set_position(position / 100)
 
     # 재생 종료 콜백

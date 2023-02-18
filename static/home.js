@@ -1,7 +1,14 @@
 'use strict';
 
 class HomeController extends Stimulus.Controller {
-  static targets = ['url', 'playlist', 'playButton', 'search', 'result'];
+  static targets = [
+    'url',
+    'playlist',
+    'playButton',
+    'volume',
+    'search',
+    'result',
+  ];
   static values = { refreshInterval: Number };
 
   connect() {
@@ -10,6 +17,12 @@ class HomeController extends Stimulus.Controller {
     //   name = prompt('이름을 입력해주세요. (플레이리스트 구별용)');
     //   localStorage.setItem('name', name);
     // }
+
+    this.volumeTooltip = new bootstrap.Tooltip(this.volumeTarget, {
+      placement: 'top',
+      title: () => this.volumeTarget.value,
+      animation: false,
+    });
 
     this.visibilitychangeEventListener = this.handleVisibilitychange.bind(this);
     if (this.hasRefreshIntervalValue) {
@@ -52,7 +65,9 @@ class HomeController extends Stimulus.Controller {
   }
 
   async getPlayer() {
-    const { playlist, isPlaying, current } = await requestGet('/api/player');
+    const { playlist, isPlaying, current, volume } = await requestGet(
+      '/api/player'
+    );
     const html = playlist.map(
       (item) => `<div class="card ${
         item.id === current ? `border-${isPlaying ? 'primary' : 'warning'}` : ''
@@ -99,6 +114,7 @@ class HomeController extends Stimulus.Controller {
     this.playButtonTarget.className = isPlaying
       ? 'bi bi-stop-fill'
       : 'bi bi-play-fill';
+    this.volumeTarget.value = volume;
   }
 
   async postItem(e) {
@@ -131,6 +147,12 @@ class HomeController extends Stimulus.Controller {
     const { cmd } = currentTarget.dataset;
     await requestPut(`/api/player/${cmd}`);
     this.getPlayer();
+  }
+
+  async putVolume({ currentTarget }) {
+    const volume = parseInt(currentTarget.value, 10);
+    await requestPut('/api/player/volume', { volume });
+    this.volumeTooltip.setContent({ '.tooltip-inner': volume.toString() });
   }
 
   async getSearch(e) {
