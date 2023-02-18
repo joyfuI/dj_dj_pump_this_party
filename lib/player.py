@@ -70,14 +70,10 @@ class Player:
     def get_volume(self) -> int:
         return self.volume  # 0 ~ 100
 
-    def set_volume(self, volume: int) -> bool:
-        if self.player is None:
-            self.volume = volume
-            return True
-        result = self.player.audio_set_volume(volume)  # 성공: 0, 실패: -1
-        if result == 0:
-            self.volume = volume
-        return result == 0
+    def set_volume(self, volume: int):
+        self.volume = volume
+        if self.player is not None:
+            self.player.audio_set_volume(volume)
 
     def get_position(self) -> int:
         if self.player is None:
@@ -89,7 +85,8 @@ class Player:
         return result * 100  # 0 ~ 100
 
     def set_position(self, position: int):
-        return self.player.set_position(position / 100)
+        if self.player is not None:
+            self.player.set_position(position / 100)
 
     # 재생 종료 콜백
     def _callback_end(self, _):
