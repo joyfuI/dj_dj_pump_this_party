@@ -15,6 +15,12 @@ class Playlist:
         except IndexError:
             return None
 
+    def get(self, index: int) -> Youtube:
+        try:
+            return self.playlist[index]
+        except IndexError:
+            return None
+
     def add_after_current(self, url: str) -> None:
         self.playlist.insert(self.index + 1, Youtube(url))
 

@@ -114,12 +114,12 @@ class HomeController extends Stimulus.Controller {
     </div>
     <div class="col-md-3 p-3 align-self-center text-end">
       <div class="btn-group" role="group">
-        <button class="btn btn-light" type="button" data-action="click->home#upItem" data-id="${
+        <button class="btn btn-light" type="button" data-action="click->home#putItemUp" data-id="${
           item.id
         }">
           <i class="bi bi-chevron-up"></i>
         </button>
-        <button class="btn btn-light" type="button" data-action="click->home#downItem" data-id="${
+        <button class="btn btn-light" type="button" data-action="click->home#putItemDown" data-id="${
           item.id
         }">
           <i class="bi bi-chevron-down"></i>
@@ -156,15 +156,21 @@ class HomeController extends Stimulus.Controller {
     this.getPlayer();
   }
 
-  async upItem({ currentTarget }) {
+  async putItemUp({ currentTarget }) {
     const { id } = currentTarget.dataset;
     await requestPut(`/api/item/${id}/up`);
     this.getPlayer();
   }
 
-  async downItem({ currentTarget }) {
+  async putItemDown({ currentTarget }) {
     const { id } = currentTarget.dataset;
     await requestPut(`/api/item/${id}/down`);
+    this.getPlayer();
+  }
+
+  async deleteItems({ currentTarget }) {
+    const { type } = currentTarget.dataset;
+    await requestDelete('/api/items', { type });
     this.getPlayer();
   }
 

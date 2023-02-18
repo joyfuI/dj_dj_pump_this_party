@@ -62,6 +62,20 @@ def put_item_down(yt_id: int):
     return jsonify({})
 
 
+@blueprint.route("/items", methods=["DELETE"])
+def delete_items():
+    data = request.get_json()
+    delete_type = data.get("type")
+    if delete_type == "all":
+        player.stop()
+        for item in player.playlist.playlist:
+            player.playlist.del_id(item.id)
+    elif delete_type == "past":
+        for i in reversed(range(player.playlist.index)):
+            player.playlist.del_id(player.playlist.get(i).id)
+    return jsonify({})
+
+
 @blueprint.route("/player/play", methods=["PUT"])
 def put_player_play():
     if player.is_playing():
