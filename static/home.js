@@ -4,6 +4,7 @@ class HomeController extends Stimulus.Controller {
   static targets = [
     'url',
     'playlist',
+    'progress',
     'playButton',
     'volume',
     'search',
@@ -65,7 +66,7 @@ class HomeController extends Stimulus.Controller {
   }
 
   async getPlayer() {
-    const { playlist, isPlaying, current, volume } = await requestGet(
+    const { playlist, isPlaying, current, volume, position } = await requestGet(
       '/api/player'
     );
     const html = playlist.map(
@@ -111,6 +112,8 @@ class HomeController extends Stimulus.Controller {
 </div>`
     );
     this.playlistTarget.innerHTML = html.join('');
+    this.progressTarget.style.width = `${position}%`;
+    this.progressTarget.setAttribute('aria-valuenow', position);
     this.playButtonTarget.className = isPlaying
       ? 'bi bi-stop-fill'
       : 'bi bi-play-fill';
