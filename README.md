@@ -15,7 +15,7 @@ git clone https://github.com/joyfuI/dj_dj_pump_this_party.git
 2. 파이썬 가상환경 생성
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 ```
 
 3. 가상환경 진입
@@ -39,10 +39,10 @@ pip install -r requirements.txt
 [이 링크](https://ytmusicapi.readthedocs.io/en/latest/setup.html#copy-authentication-headers)를 참고해서 아래 명령어가 시키는 대로 하면 `headers_auth.json` 파일이 생성됨
 
 ```bash
-python3 create_auth.py
+python create_auth.py
 ```
 
-인증토큰이 없으면 검색 기능을 사용할 때 검색 결과가 제대로 나오지 않음. `headers_auth.json` 파일이 있는데도 검색 결과가 이상하다면 토큰이 만료된 것이므로 재생성 필요
+인증토큰이 없으면 유튜브 뮤직 관련 기능(검색, 차트 등)을 사용할 때 제대로 작동하지 않음. 어느 날 갑자기 `headers_auth.json` 파일이 있는데도 작동이 이상하다면 토큰이 만료된 것이므로 재생성 필요
 
 6. 앱 실행
 
@@ -50,7 +50,7 @@ python3 create_auth.py
 flask run --host=0.0.0.0
 
 # 개발모드
-python3 app.py
+python app.py
 ```
 
 최초 세팅 이후부턴 `가상환경 진입` 후 `앱 실행`만 하면 된다.
