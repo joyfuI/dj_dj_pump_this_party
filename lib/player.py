@@ -18,7 +18,7 @@ vlc = __import__("vlc")
 class Player:
     def __init__(self):
         self.player = None
-        self.volume = 100
+        self.volume = 50
         self.playlist = Playlist()
 
     def new_player(self, mrl: str):
