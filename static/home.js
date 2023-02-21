@@ -141,6 +141,7 @@ class HomeController extends Stimulus.Controller {
       ? 'bi bi-stop-fill'
       : 'bi bi-play-fill';
     this.volumeTarget.value = volume;
+    this.volumeTooltip.setContent({ '.tooltip-inner': volume.toString() });
   }
 
   async postItem(e) {
