@@ -95,7 +95,7 @@ class HomeController extends Stimulus.Controller {
     const html = playlist.map(
       (item) => `<div class="card ${
         item.id === current ? `border-${isPlaying ? 'primary' : 'warning'}` : ''
-      }">
+      } ${item.id === current ? 'text-bg-light' : ''}">
   <div class="row g-0">
     <div class="col-md-2">
       <img class="img-fluid rounded-start" src="${item.thumbnail}">
