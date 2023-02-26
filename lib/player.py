@@ -21,6 +21,7 @@ class Player:
         self.player = None
         self.volume = 50
         self.playlist = Playlist()
+        self.auto_add = True
 
     def _new_player(self, mrl: str):
         instance = vlc.MediaPlayer()
@@ -89,23 +90,34 @@ class Player:
         if self.player is not None:
             self.player.set_position(position / 100)
 
+    def get_auto_add(self) -> bool:
+        return self.auto_add
+
+    def toggle_auto_add(self):
+        self.auto_add = not self.auto_add
+
     def _next_play(self):
         if self.playlist.next() is None:
             # 마지막 영상이면
-            yt = self.get_current()
-            result = related_song(yt.video_id)  # 유튜브 뮤직의 알고리즘 목록을 가져옴
-            result = find(
-                lambda item: item["video_id"]
-                not in [yt.video_id for yt in self.playlist.playlist],
-                result,
-            )  # 알고리즘 목록에서 플레이리스트에 없는 곳 선택
-            if result is None:
-                # 모든 곡이 플레이리스트에 있으면 처음 영상부터 다시시작
-                self.playlist.index = 0
+            if self.auto_add:
+                # 자동추가
+                yt = self.get_current()
+                result = related_song(yt.video_id)  # 유튜브 뮤직의 알고리즘 목록을 가져옴
+                result = find(
+                    lambda item: item["video_id"]
+                    not in [yt.video_id for yt in self.playlist.playlist],
+                    result,
+                )  # 알고리즘 목록에서 플레이리스트에 없는 곳 선택
+                if result is None:
+                    # 모든 곡이 플레이리스트에 있으면 처음 영상부터 다시시작
+                    self.playlist.index = 0
+                else:
+                    # 플레이리스트에 없는 곡 추가
+                    self.playlist.add_after_last(result["url"], "auto")
+                    self.playlist.next()
             else:
-                # 플레이리스트에 없는 곡 추가
-                self.playlist.add_after_last(result["url"], "auto")
-                self.playlist.next()
+                # 처음 영상부터 다시시작
+                self.playlist.index = 0
         self.play()
 
     # 재생 종료 콜백

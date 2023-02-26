@@ -3,6 +3,7 @@
 class HomeController extends Stimulus.Controller {
   static targets = [
     'url',
+    'autoAdd',
     'playlist',
     'progress',
     'playButton',
@@ -88,10 +89,13 @@ class HomeController extends Stimulus.Controller {
 </div>`;
   }
 
+  stopPropagation(e) {
+    e.stopPropagation();
+  }
+
   async getPlayer() {
-    const { playlist, isPlaying, current, volume, position } = await requestGet(
-      '/api/player'
-    );
+    const { playlist, isPlaying, current, volume, position, isAutoAdd } =
+      await requestGet('/api/player');
     const html = playlist.map(
       (item) => `<div class="card ${
         item.id === current ? `border-${isPlaying ? 'primary' : 'warning'}` : ''
@@ -144,6 +148,7 @@ class HomeController extends Stimulus.Controller {
       : 'bi bi-play-fill';
     this.volumeTarget.value = volume;
     this.volumeTooltip.setContent({ '.tooltip-inner': volume.toString() });
+    this.autoAddTarget.checked = isAutoAdd;
   }
 
   async postItem(e) {
@@ -204,6 +209,10 @@ class HomeController extends Stimulus.Controller {
     const { result } = await requestGet(`/api/chart/${category}`);
     const html = result.map(this.makeModalCard);
     this.chartResultTarget.innerHTML = html.join('');
+  }
+
+  async putAutoAdd() {
+    await requestPut('/api/player/autoadd');
   }
 }
 

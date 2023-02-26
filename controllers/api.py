@@ -19,6 +19,7 @@ def get_player():
     current = player.get_current()
     volume = player.get_volume()
     position = player.get_position()
+    auto_add = player.get_auto_add()
     return jsonify(
         {
             "playlist": playlist,
@@ -26,6 +27,7 @@ def get_player():
             "current": current.id if current is not None else None,
             "volume": volume,
             "position": position,
+            "isAutoAdd": auto_add,
         }
     )
 
@@ -126,3 +128,9 @@ def get_search():
 def get_chart(category: str):
     result = get_charts(category)
     return jsonify({"result": result})
+
+
+@blueprint.route("/player/autoadd", methods=["PUT"])
+def put_player_autoadd():
+    player.toggle_auto_add()
+    return jsonify({})

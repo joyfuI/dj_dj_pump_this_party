@@ -29,6 +29,18 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
+              <label class="dropdown-item" for="autoAdd" data-action="click->home#stopPropagation">
+                <div class="form-check form-switch">
+                  <input id="autoAdd" class="form-check-input" type="checkbox" role="switch" data-home-target="autoAdd"
+                    data-action="input->home#putAutoAdd">
+                  <div class="form-check-label">자동추가</div>
+                </div>
+              </label>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
               <button class="dropdown-item" type="button" data-action="click->home#getChart" data-category="songs"
                 data-bs-toggle="modal" data-bs-target="#chartModal">인기곡</button>
             </li>
