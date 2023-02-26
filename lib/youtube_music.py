@@ -9,6 +9,7 @@ ytmusic = YTMusic("headers_auth.json", language="ko")
 def _convert_data(item: dict[str, Any]) -> dict[str, Any]:
     artist = map(lambda artist: artist["name"], item["artists"])
     artist = filter(lambda artist: not artist.startswith("조회수"), artist)
+    artist = filter(lambda artist: not artist.startswith("좋아요"), artist)
     artist = ", ".join(list(artist))
     thumbnail = item.get("thumbnails", item.get("thumbnail"))
     thumbnail = thumbnail[-1]["url"]
