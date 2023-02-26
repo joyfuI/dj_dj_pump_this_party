@@ -108,7 +108,9 @@ class HomeController extends Stimulus.Controller {
       }</a>
         </h5>
         <p class="card-text">
-          <small class="text-muted">${secondToString(item.duration)}</small>
+          <small class="text-muted">${secondToString(item.duration)}${
+        item.extra === 'auto' ? ' | 자동추가' : ''
+      }</small>
         </p>
       </div>
     </div>

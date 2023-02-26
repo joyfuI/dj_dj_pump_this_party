@@ -12,6 +12,13 @@ def add_path_env(path: str) -> None:
 T = TypeVar("T")
 
 
+def find(pred: Callable[[T], bool], iterable: List[T]) -> T:
+    for item in iterable:
+        if pred(item):
+            return item
+    return None
+
+
 def find_index(pred: Callable[[T], bool], iterable: List[T]) -> int:
     for index, item in enumerate(iterable):
         if pred(item):

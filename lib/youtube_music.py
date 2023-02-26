@@ -10,10 +10,13 @@ def _convert_data(item: dict[str, Any]) -> dict[str, Any]:
     artist = map(lambda artist: artist["name"], item["artists"])
     artist = filter(lambda artist: not artist.startswith("조회수"), artist)
     artist = ", ".join(list(artist))
+    thumbnail = item.get("thumbnails", item.get("thumbnail"))
+    thumbnail = thumbnail[-1]["url"]
     return {
+        "video_id": item["videoId"],
         "url": f"https://www.youtube.com/watch?v={item['videoId']}",
         "title": f'{item["title"]} - {artist}',
-        "thumbnail": item["thumbnails"][-1]["url"],
+        "thumbnail": thumbnail,
     }
 
 
@@ -30,4 +33,10 @@ def get_charts(category: str) -> list[dict]:
     if result is None:
         result = charts["songs"]
     result = list(map(_convert_data, result["items"]))
+    return result
+
+
+def related_song(videoId: str) -> list[dict]:
+    result = ytmusic.get_watch_playlist(videoId)
+    result = list(map(_convert_data, result["tracks"]))
     return result

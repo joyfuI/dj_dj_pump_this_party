@@ -12,6 +12,7 @@ _p = re.compile(
 @dataclass
 class Youtube:
     id: int
+    video_id: str
     url: str
     title: str
     thumbnail: str
@@ -25,6 +26,7 @@ class Youtube:
         self.url = url
         self.extra = extra
         self.refresh_info()
+        self.video_id: str = self.info["id"]
         self.url: str = self.info["webpage_url"]
         self.title: str = (
             f"{self.info['title']} - {self.info['artist']}"
