@@ -5,6 +5,7 @@ class HomeController extends Stimulus.Controller {
     'url',
     'autoAdd',
     'playlist',
+    'current',
     'progress',
     'playButton',
     'volume',
@@ -89,6 +90,13 @@ class HomeController extends Stimulus.Controller {
 </div>`;
   }
 
+  scrollIntoCurrent() {
+    this.currentTarget.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }
+
   stopPropagation(e) {
     e.stopPropagation();
   }
@@ -99,7 +107,9 @@ class HomeController extends Stimulus.Controller {
     const html = playlist.map(
       (item) => `<div class="card ${
         item.id === current ? `border-${isPlaying ? 'primary' : 'warning'}` : ''
-      } ${item.id === current ? 'text-bg-light' : ''}">
+      } ${item.id === current ? 'text-bg-light' : ''}" ${
+        item.id === current ? 'data-home-target="current"' : ''
+      }>
   <div class="row g-0">
     <div class="col-md-2">
       <img class="img-fluid rounded-start" src="${item.thumbnail}">
