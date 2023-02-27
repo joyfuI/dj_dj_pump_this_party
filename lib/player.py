@@ -100,7 +100,7 @@ class Player:
         if self.playlist.next() is None:
             # 마지막 영상이면
             if self.auto_add:
-                # 자동추가
+                # 자동재생
                 yt = self.get_current()
                 result = related_song(yt.video_id)  # 유튜브 뮤직의 알고리즘 목록을 가져옴
                 result = find(
