@@ -1,6 +1,5 @@
 {% extends '_base.jinja' %}
 {% block content %}
-
 <main class="container" data-controller="{{ arg['name'] }}" data-home-refresh-interval-value="1000">
   <nav class="navbar navbar-expand fixed-top bg-light">
     <div class="container">
@@ -155,7 +154,5 @@
     </div>
   </div>
 </main>
-
 <script src="{{ url_for('static', filename='%s.js' % arg['name']) }}"></script>
-
 {% endblock %}

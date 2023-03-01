@@ -1,0 +1,11 @@
+{% extends '_base.jinja' %}
+{% block content %}
+<main data-controller="{{ arg['name'] }}">
+  <textarea id="output" rows="30" cols="150"></textarea>
+  <button data-action="click->dev#requestApi" data-method="GET" data-url="/api/player"
+    data-target="#output">test</button>
+  <button data-action="click->dev#requestApi" data-method="GET" data-url="/dev/related" data-body="{ 'q': '${q}' }"
+    data-target="#output" data-q="1UJCm2ZzrnE">test2</button>
+</main>
+<script src="{{ url_for('static', filename='%s.js' % arg['name']) }}"></script>
+{% endblock %}
