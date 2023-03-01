@@ -21,8 +21,8 @@ class Playlist:
         except IndexError:
             return None
 
-    def add_after_current(self, url: str) -> None:
-        self.playlist.insert(self.index + 1, Youtube(url))
+    def add_after_current(self, url: str, extra: Any = None) -> None:
+        self.playlist.insert(self.index + 1, Youtube(url, extra))
 
     def add_after_last(self, url: str, extra: Any = None) -> None:
         self.playlist.append(Youtube(url, extra))

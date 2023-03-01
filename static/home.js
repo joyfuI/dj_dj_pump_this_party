@@ -163,8 +163,14 @@ class HomeController extends Stimulus.Controller {
 
   async postItem(e) {
     e.preventDefault();
-    const url = e.currentTarget.dataset.url ?? this.urlTarget.value;
-    await requestPost('/api/item', { url });
+
+    try {
+      const url = e.currentTarget.dataset.url ?? this.urlTarget.value;
+      await requestPost('/api/item', { url });
+    } catch (error) {
+      alert(error.message);
+    }
+
     this.getPlayer();
   }
 

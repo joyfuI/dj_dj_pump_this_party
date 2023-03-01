@@ -1,6 +1,7 @@
 import os
 
 from flask import Blueprint, jsonify, request
+from yt_dlp.utils import DownloadError
 
 from lib.player import Player
 from lib.youtube_music import get_charts, search_song
@@ -134,3 +135,9 @@ def get_chart(category: str):
 def put_player_autoadd():
     player.toggle_auto_add()
     return jsonify({})
+
+
+# 유튜브 영상 정보 가져오기 오류 처리
+@blueprint.app_errorhandler(DownloadError)
+def download_error(e):
+    return jsonify({"message": e.msg}), 404
