@@ -74,7 +74,7 @@ class HomeController extends Stimulus.Controller {
     <div class="col-2">
       <img class="img-fluid rounded-start" src="${item.thumbnail}">
     </div>
-    <div class="col-8 align-self-center">
+    <div class="col-7 align-self-center">
       <div class="card-body">
         <h6 class="card-title m-0">
           <a href="${item.url}" target="_blank" rel="noreferrer">${item.title}</a>
@@ -82,9 +82,19 @@ class HomeController extends Stimulus.Controller {
       </div>
     </div>
     <div class="col-auto px-3 align-self-center text-end">
-      <button class="btn btn-primary" type="button" data-action="click->home#postItem" data-bs-dismiss="modal" data-url="${item.url}">
-        <i class="bi bi-plus"></i>
-      </button>
+      <div class="btn-group">
+        <button class="btn btn-primary" type="button" data-action="click->home#postItem" data-bs-dismiss="modal" data-url="${item.url}" data-position="last">
+          <i class="bi bi-plus"></i>
+        </button>
+        <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <button class="dropdown-item" type="button" data-action="click->home#postItem" data-url="${item.url}" data-position="current">현재 곡 뒤에 추가</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>`;
@@ -163,10 +173,11 @@ class HomeController extends Stimulus.Controller {
 
   async postItem(e) {
     e.preventDefault();
+    const { url: urlData, position } = e.currentTarget.dataset;
 
     try {
-      const url = e.currentTarget.dataset.url ?? this.urlTarget.value;
-      await requestPost('/api/item', { url });
+      const url = urlData ?? this.urlTarget.value;
+      await requestPost('/api/item', { url, position });
     } catch (error) {
       alert(error.message);
     }

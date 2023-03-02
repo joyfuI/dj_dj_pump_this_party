@@ -11,9 +11,19 @@
           </span>
           <input id="url" name="url" class="form-control" type="url" placeholder="https://www.youtube.com/watch?v="
             data-home-target="url">
-          <button class="btn btn-primary" type="submit">
+          <button class="btn btn-primary" type="button" data-action="click->home#postItem" data-position="last">
             <i class="bi bi-plus"></i>
           </button>
+          <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <button class="dropdown-item" type="button" data-action="click->home#postItem" data-position="current">현재
+                곡 뒤에 추가</button>
+            </li>
+          </ul>
         </div>
       </form>
 

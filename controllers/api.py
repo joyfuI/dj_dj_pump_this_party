@@ -38,7 +38,11 @@ def post_item():
     # nickname = request.headers.get("DDPTP-name")
     data = request.get_json()
     url = data["url"]
-    player.playlist.add_after_last(url, request.remote_addr)
+    position = data.get("position")
+    if position == "current":
+        player.playlist.add_after_current(url, request.remote_addr)  # 현재 곡 뒤에 추가
+    else:
+        player.playlist.add_after_last(url, request.remote_addr)  # 맨 마지막에 추가
     return jsonify({})
 
 
