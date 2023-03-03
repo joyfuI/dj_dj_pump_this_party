@@ -52,3 +52,14 @@ class Youtube:
 
     def get_bast_audio_url(self) -> str:
         return self.get_bast_audio()["url"]
+
+    @staticmethod
+    def get_playlist_info(url: str) -> dict[str, Any]:
+        ydl_opts = {
+            "extract_flat": True,
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            if info["_type"] != "playlist":
+                raise ValueError("플레이리스트 URL이 아닙니다.")
+            return info
