@@ -39,6 +39,7 @@ class Youtube:
     def refresh_info(self) -> None:
         ydl_opts = {
             "format": "m4a/bestaudio/best",
+            "noplaylist": True,
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             self.info = ydl.extract_info(self.url, download=False)
