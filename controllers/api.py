@@ -35,7 +35,6 @@ def get_player():
 
 @blueprint.route("/item", methods=["POST"])
 def post_item():
-    # nickname = request.headers.get("DDPTP-name")
     data = request.get_json()
     url = data["url"]
     position = data.get("position")

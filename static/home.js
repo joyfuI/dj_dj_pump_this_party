@@ -16,12 +16,6 @@ class HomeController extends Stimulus.Controller {
   static values = { refreshInterval: Number };
 
   connect() {
-    // let name = localStorage.getItem('name');
-    // if (!name) {
-    //   name = prompt('이름을 입력해주세요. (플레이리스트 구별용)');
-    //   localStorage.setItem('name', name);
-    // }
-
     this.volumeTooltip = new bootstrap.Tooltip(this.volumeTarget, {
       placement: 'top',
       title: () => this.volumeTarget.value,
@@ -132,8 +126,8 @@ class HomeController extends Stimulus.Controller {
       }</a>
         </h5>
         <p class="card-text">
-          <small class="text-muted">${secondToString(item.duration)}${
-        item.extra === 'auto' ? ' | 자동재생' : ''
+          <small class="text-muted">${secondToString(item.duration)} | ${
+        item.extra
       }</small>
         </p>
       </div>

@@ -4,11 +4,6 @@ const request = async (url, options) => {
   const headers = {
     'Content-Type': 'application/json; charset=utf-8',
   };
-  // const name = localStorage.getItem('name');
-  // if (name) {
-  //   headers['DDPTP-name'] = btoaencodeURIComponent(name); // 커스텀 헤더
-  // }
-
   const response = await fetch(url, {
     headers,
     ...options,

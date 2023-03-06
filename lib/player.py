@@ -113,7 +113,7 @@ class Player:
                     self.playlist.index = 0
                 else:
                     # 플레이리스트에 없는 곡 추가
-                    self.playlist.add_after_last(result["url"], "auto")
+                    self.playlist.add_after_last(result["url"], "자동재생")
                     self.playlist.next()
             else:
                 # 처음 영상부터 다시시작
