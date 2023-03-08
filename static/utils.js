@@ -63,20 +63,26 @@ const secondToString = (second) => {
   return hh === '00' ? `${mm}:${ss}` : `${hh}:${mm}:${ss}`;
 };
 
+const nodeArrayToFragment = (nodeArray) => {
+  const fragment = document.createDocumentFragment();
+  nodeArray.forEach((node) => {
+    fragment.appendChild(node.cloneNode(true));
+  });
+  return fragment;
+};
+
 const alert = (message) => {
   const alertPlaceholder = document.getElementById('alertPlaceholder');
-  const template = document.createElement('template');
-  template.innerHTML = `<div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="d-flex">
-    <div class="toast-body">${message}</div>
-    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-</div>`;
-  const content = template.content.firstChild;
-  content.addEventListener('hidden.bs.toast', () => {
-    alertPlaceholder.removeChild(content);
+  const template = document.getElementById('alert-toast');
+  const clone = template.content.firstElementChild.cloneNode(true);
+
+  const toastBody = clone.querySelector('.toast-body');
+  toastBody.textContent = message;
+
+  clone.addEventListener('hidden.bs.toast', () => {
+    alertPlaceholder.removeChild(clone);
   });
-  alertPlaceholder.append(content);
-  const toast = new bootstrap.Toast(content);
+  alertPlaceholder.append(clone);
+  const toast = new bootstrap.Toast(clone);
   toast.show();
 };

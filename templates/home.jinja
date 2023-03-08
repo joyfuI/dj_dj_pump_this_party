@@ -165,5 +165,71 @@
     </div>
   </div>
 </main>
+<template id="item-card">
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-md-2">
+        <img class="img-fluid rounded-start">
+      </div>
+      <div class="col-md-7 align-self-center">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a target="_blank" rel="noreferrer"></a>
+          </h5>
+          <p class="card-text">
+            <small class="text-muted"></small>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-3 p-3 align-self-center text-end">
+        <div class="btn-group" role="group">
+          <button class="btn btn-light" type="button" data-action="click->home#putItemUp">
+            <i class="bi bi-chevron-up"></i>
+          </button>
+          <button class="btn btn-light" type="button" data-action="click->home#putItemDown">
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <button class="btn btn-danger" type="button" data-action="click->home#deleteItem">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template id="modal-card">
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-2">
+        <img class="img-fluid rounded-start">
+      </div>
+      <div class="col-7 align-self-center">
+        <div class="card-body">
+          <h6 class="card-title m-0">
+            <a target="_blank" rel="noreferrer"></a>
+          </h6>
+        </div>
+      </div>
+      <div class="col-auto px-3 align-self-center text-end">
+        <div class="btn-group">
+          <button class="btn btn-primary" type="button" data-action="click->home#postItem" data-bs-dismiss="modal"
+            data-position="last">
+            <i class="bi bi-plus"></i>
+          </button>
+          <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <button class="dropdown-item" type="button" data-action="click->home#postItem" data-position="current">현재
+                곡 뒤에 추가</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 <script src="{{ url_for('static', filename='%s.js' % arg['name']) }}"></script>
 {% endblock %}

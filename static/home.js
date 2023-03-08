@@ -62,36 +62,60 @@ class HomeController extends Stimulus.Controller {
     }
   }
 
+  makeCard(item, current, isPlaying) {
+    const template = document.getElementById('item-card');
+    const clone = template.content.firstElementChild.cloneNode(true);
+
+    const card = clone;
+    if (item.id === current) {
+      // 선택된 곡
+      card.classList.add(`border-${isPlaying ? 'primary' : 'warning'}`);
+      card.classList.add('text-bg-light');
+      card.dataset.homeTarget = 'current';
+    }
+
+    const img = clone.querySelector('img');
+    img.src = item.thumbnail;
+
+    const cardTitle = clone.querySelector('.card-title');
+    if (item.id === current) {
+      cardTitle.classList.add('fw-bolder');
+    }
+
+    const a = clone.querySelector('a[target="_blank"]');
+    a.href = item.url;
+    a.textContent = item.title;
+
+    const cardText = clone.querySelector('.card-text > .text-muted');
+    cardText.textContent = `${secondToString(item.duration)} | ${item.extra}`;
+
+    const btnGroup = clone.querySelectorAll('.btn-group > button');
+    btnGroup.forEach((button) => {
+      button.dataset.id = item.id;
+    });
+
+    return clone;
+  }
+
   makeModalCard(item) {
-    return `<div class="card">
-  <div class="row g-0">
-    <div class="col-2">
-      <img class="img-fluid rounded-start" src="${item.thumbnail}">
-    </div>
-    <div class="col-7 align-self-center">
-      <div class="card-body">
-        <h6 class="card-title m-0">
-          <a href="${item.url}" target="_blank" rel="noreferrer">${item.title}</a>
-        </h6>
-      </div>
-    </div>
-    <div class="col-auto px-3 align-self-center text-end">
-      <div class="btn-group">
-        <button class="btn btn-primary" type="button" data-action="click->home#postItem" data-bs-dismiss="modal" data-url="${item.url}" data-position="last">
-          <i class="bi bi-plus"></i>
-        </button>
-        <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="visually-hidden">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <button class="dropdown-item" type="button" data-action="click->home#postItem" data-url="${item.url}" data-position="current">현재 곡 뒤에 추가</button>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>`;
+    const template = document.getElementById('modal-card');
+    const clone = template.content.firstElementChild.cloneNode(true);
+
+    const img = clone.querySelector('img');
+    img.src = item.thumbnail;
+
+    const a = clone.querySelector('a[target="_blank"]');
+    a.href = item.url;
+    a.textContent = item.title;
+
+    const btnGroup = clone.querySelectorAll(
+      '.btn-group button:not([data-bs-toggle="dropdown"])'
+    );
+    btnGroup.forEach((button) => {
+      button.dataset.url = item.url;
+    });
+
+    return clone;
   }
 
   scrollIntoCurrent() {
@@ -108,53 +132,10 @@ class HomeController extends Stimulus.Controller {
   async getPlayer() {
     const { playlist, isPlaying, current, volume, position, isAutoAdd } =
       await requestGet('/api/player');
-    const html = playlist.map(
-      (item) => `<div class="card ${
-        item.id === current ? `border-${isPlaying ? 'primary' : 'warning'}` : ''
-      } ${item.id === current ? 'text-bg-light' : ''}" ${
-        item.id === current ? 'data-home-target="current"' : ''
-      }>
-  <div class="row g-0">
-    <div class="col-md-2">
-      <img class="img-fluid rounded-start" src="${item.thumbnail}">
-    </div>
-    <div class="col-md-7 align-self-center">
-      <div class="card-body">
-        <h5 class="card-title ${item.id === current ? 'fw-bolder' : ''}">
-          <a href="${item.url}" target="_blank" rel="noreferrer">${
-        item.title
-      }</a>
-        </h5>
-        <p class="card-text">
-          <small class="text-muted">${secondToString(item.duration)} | ${
-        item.extra
-      }</small>
-        </p>
-      </div>
-    </div>
-    <div class="col-md-3 p-3 align-self-center text-end">
-      <div class="btn-group" role="group">
-        <button class="btn btn-light" type="button" data-action="click->home#putItemUp" data-id="${
-          item.id
-        }">
-          <i class="bi bi-chevron-up"></i>
-        </button>
-        <button class="btn btn-light" type="button" data-action="click->home#putItemDown" data-id="${
-          item.id
-        }">
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <button class="btn btn-danger" type="button" data-action="click->home#deleteItem" data-id="${
-          item.id
-        }">
-          <i class="bi bi-trash-fill"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>`
+    const node = nodeArrayToFragment(
+      playlist.map((item) => this.makeCard(item, current, isPlaying))
     );
-    this.playlistTarget.innerHTML = html.join('');
+    this.playlistTarget.replaceChildren(node);
     this.progressTarget.style.width = `${position}%`;
     this.progressTarget.setAttribute('aria-valuenow', position);
     this.playButtonTarget.className = isPlaying
@@ -220,16 +201,16 @@ class HomeController extends Stimulus.Controller {
     const { result } = await requestGet('/api/search', {
       q: this.searchTarget.value,
     });
-    const html = result.map(this.makeModalCard);
-    this.searchResultTarget.innerHTML = html.join('');
+    const node = nodeArrayToFragment(result.map(this.makeModalCard));
+    this.searchResultTarget.replaceChildren(node);
   }
 
   async getChart({ currentTarget }) {
     const { category } = currentTarget.dataset;
     this.chartResultTarget.innerHTML = '';
     const { result } = await requestGet(`/api/chart/${category}`);
-    const html = result.map(this.makeModalCard);
-    this.chartResultTarget.innerHTML = html.join('');
+    const node = nodeArrayToFragment(result.map(this.makeModalCard));
+    this.chartResultTarget.replaceChildren(node);
   }
 
   async putAutoAdd() {
