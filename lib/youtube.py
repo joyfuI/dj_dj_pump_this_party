@@ -5,7 +5,7 @@ from typing import Any
 import yt_dlp
 
 _p = re.compile(
-    r"(http:|https:)?(\/\/)?(www\.)?(youtube.com|youtu.be)\/(watch|embed)?(\?v=|\/)?(\S+)?"
+    r"^https?://((www\.|music\.)?youtube\.com|youtu.be)/(watch\?v=\S+|playlist\?list=\S+|\S+|browse/\S+)"
 )
 
 
@@ -57,7 +57,7 @@ class Youtube:
     @staticmethod
     def get_playlist_info(url: str) -> dict[str, Any]:
         ydl_opts = {
-            "extract_flat": True,
+            "extract_flat": "in_playlist",
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)

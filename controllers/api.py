@@ -142,5 +142,11 @@ def put_player_autoadd():
 
 # 유튜브 영상 정보 가져오기 오류 처리
 @blueprint.app_errorhandler(DownloadError)
-def download_error(e):
+def download_error(e: DownloadError):
     return jsonify({"message": e.msg}), 404
+
+
+# 잘못된 URL 오류 처리
+@blueprint.app_errorhandler(ValueError)
+def value_error(e: ValueError):
+    return jsonify({"message": str(e)}), 400

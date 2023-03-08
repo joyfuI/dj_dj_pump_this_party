@@ -22,7 +22,7 @@ class Playlist:
             return None
 
     def add_after_current(self, url: str, extra: Any = None) -> None:
-        if url.find("list=") == -1:
+        if url.find("list=") == -1 and url.find("browse/") == -1:
             self.playlist.insert(self.index + 1, Youtube(url, extra))
         else:
             index = self.index
@@ -31,7 +31,7 @@ class Playlist:
                 self.playlist.insert(index + i + 1, Youtube(entry["url"], extra))
 
     def add_after_last(self, url: str, extra: Any = None) -> None:
-        if url.find("list=") == -1:
+        if url.find("list=") == -1 and url.find("browse/") == -1:
             self.playlist.append(Youtube(url, extra))
         else:
             info = Youtube.get_playlist_info(url)
