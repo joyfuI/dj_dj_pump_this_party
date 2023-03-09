@@ -160,6 +160,20 @@ class HomeController extends Stimulus.Controller {
     this.getPlayer();
   }
 
+  async postMix(e) {
+    e.preventDefault();
+    const { url: urlData } = e.currentTarget.dataset;
+
+    try {
+      const url = urlData ?? this.urlTarget.value;
+      await requestPost('/api/mix', { url });
+    } catch (error) {
+      alert(error.message);
+    }
+
+    this.getPlayer();
+  }
+
   async deleteItem({ currentTarget }) {
     const { id } = currentTarget.dataset;
     await requestDelete(`/api/item/${id}`);

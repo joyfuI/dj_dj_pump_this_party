@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from yt_dlp.utils import DownloadError
 
 from lib.player import Player
+from lib.youtube import Youtube
 from lib.youtube_music import get_charts, search_song
 
 basename = os.path.basename(__file__)
@@ -42,6 +43,16 @@ def post_item():
         player.playlist.add_after_current(url, request.remote_addr)  # 현재 곡 뒤에 추가
     else:
         player.playlist.add_after_last(url, request.remote_addr)  # 맨 마지막에 추가
+    return jsonify({})
+
+
+@blueprint.route("/mix", methods=["POST"])
+def post_mix():
+    data = request.get_json()
+    url = data["url"]
+    info = Youtube.get_info(url)
+    mix_url = f"https://www.youtube.com/watch?v={info['id']}&list=RDAMVM{info['id']}"
+    player.playlist.add_after_last(mix_url, request.remote_addr)
     return jsonify({})
 
 

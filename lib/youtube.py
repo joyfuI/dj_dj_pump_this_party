@@ -37,12 +37,7 @@ class Youtube:
         self.duration: int = self.info["duration"]
 
     def refresh_info(self) -> None:
-        ydl_opts = {
-            "format": "m4a/bestaudio/best",
-            "noplaylist": True,
-        }
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            self.info = ydl.extract_info(self.url, download=False)
+        self.info = Youtube.get_info(self.url)
 
     def get_bast_audio(self) -> dict[str, Any]:
         self.refresh_info()
@@ -53,6 +48,16 @@ class Youtube:
 
     def get_bast_audio_url(self) -> str:
         return self.get_bast_audio()["url"]
+
+    @staticmethod
+    def get_info(url: str) -> dict[str, Any]:
+        ydl_opts = {
+            "format": "m4a/bestaudio/best",
+            "noplaylist": True,
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            return info
 
     @staticmethod
     def get_playlist_info(url: str) -> dict[str, Any]:
