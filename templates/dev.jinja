@@ -6,6 +6,11 @@
     data-target="#output">test</button>
   <button data-action="click->dev#requestApi" data-method="GET" data-url="/dev/related" data-body="{ 'q': '${q}' }"
     data-target="#output" data-q="1UJCm2ZzrnE">test2</button>
+  <button data-action="click->dev#requestApi" data-method="GET" data-url="/dev/info" data-body="{ 'url': '${q}' }"
+    data-target="#output" data-q="https://www.youtube.com/watch?v=1UJCm2ZzrnE">test3</button>
+  <button data-action="click->dev#requestApi" data-method="GET" data-url="/dev/playlist_info"
+    data-body="{ 'url': '${q}' }" data-target="#output"
+    data-q="https://www.youtube.com/watch?v=1UJCm2ZzrnE&list=RDAMVM1UJCm2ZzrnE">test4</button>
 </main>
 <script src="{{ url_for('static', filename='%s.js' % arg['name']) }}"></script>
 {% endblock %}
