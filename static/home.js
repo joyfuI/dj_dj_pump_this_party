@@ -218,6 +218,4 @@ class HomeController extends Stimulus.Controller {
   }
 }
 
-(() => {
-  stimulus.register('home', HomeController);
-})();
+stimulus.register('home', HomeController);

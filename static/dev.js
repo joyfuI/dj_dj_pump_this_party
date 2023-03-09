@@ -36,6 +36,4 @@ class DevController extends Stimulus.Controller {
   }
 }
 
-(() => {
-  stimulus.register('dev', DevController);
-})();
+stimulus.register('dev', DevController);

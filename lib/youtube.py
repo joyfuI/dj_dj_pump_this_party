@@ -58,6 +58,8 @@ class Youtube:
     def get_playlist_info(url: str) -> dict[str, Any]:
         ydl_opts = {
             "extract_flat": "in_playlist",
+            "playlist_items": "1:100",
+            "lazy_playlist": True,
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
