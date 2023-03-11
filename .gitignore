@@ -3,3 +3,4 @@ __pycache__/
 .env
 headers_auth.json
 test*.py
+vlc-*/
