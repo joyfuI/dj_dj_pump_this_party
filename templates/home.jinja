@@ -4,7 +4,7 @@
   <nav class="navbar navbar-expand fixed-top bg-light">
     <div class="container">
       <form class="flex-fill row" data-action="submit->home#postItem">
-        <label class="col-auto col-form-label" for="url">유튜브 주소</label>
+        <label class="col-auto col-form-label d-none d-md-block" for="url">유튜브 주소</label>
         <div class="col input-group">
           <span class="input-group-text">
             <i class="bi bi-youtube"></i>
@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div class="col-3 ms-sm-auto">
+        <div class="col-4">
           <div class="row">
             <label class="col-auto col-form-label" for="volume">
               <i class="bi bi-volume-down-fill"></i>
@@ -174,7 +174,7 @@
       <div class="col-md-2">
         <img class="img-fluid rounded-start">
       </div>
-      <div class="col-md-7 align-self-center">
+      <div class="col align-self-center">
         <div class="card-body">
           <h5 class="card-title">
             <a target="_blank" rel="noreferrer"></a>
@@ -184,7 +184,7 @@
           </p>
         </div>
       </div>
-      <div class="col-md-3 p-3 align-self-center text-end">
+      <div class="col-md-auto p-3 align-self-center text-end">
         <div class="btn-group" role="group">
           <button class="btn btn-light" type="button" data-action="click->home#putItemUp">
             <i class="bi bi-chevron-up"></i>
@@ -206,7 +206,7 @@
       <div class="col-2">
         <img class="img-fluid rounded-start">
       </div>
-      <div class="col-7 align-self-center">
+      <div class="col align-self-center">
         <div class="card-body">
           <h6 class="card-title m-0">
             <a target="_blank" rel="noreferrer"></a>
