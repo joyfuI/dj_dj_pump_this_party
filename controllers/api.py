@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from yt_dlp.utils import DownloadError
 
 from lib.player import Player
+from lib.utill import find
 from lib.youtube import Youtube
 from lib.youtube_music import get_charts, search_song
 
@@ -90,6 +91,15 @@ def delete_items():
     elif delete_type == "past":
         for i in reversed(range(player.playlist.index)):
             player.playlist.del_id(player.playlist.get(i).id)
+    elif delete_type == "duplicate":
+        for item in reversed(player.playlist.playlist):
+            result = find(
+                # W0640:cell-var-from-loop lambda 우회 (item.video_id)
+                lambda yt, yt2=item: yt.video_id == yt2.video_id,
+                player.playlist.playlist,
+            )
+            if result.id != item.id:  # 중복 곡이면 삭제
+                player.playlist.del_id(item.id)
     return jsonify({})
 
 
