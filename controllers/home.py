@@ -1,9 +1,6 @@
-import os
-
 from flask import Blueprint, render_template
 
-basename = os.path.basename(__file__)
-name = os.path.splitext(basename)[0]
+name = "home"
 blueprint = Blueprint(name, __name__, url_prefix="/")
 
 

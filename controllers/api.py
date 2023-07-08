@@ -1,5 +1,3 @@
-import os
-
 from flask import Blueprint, jsonify, request
 from yt_dlp.utils import DownloadError
 
@@ -8,8 +6,7 @@ from lib.utill import find
 from lib.youtube import Youtube
 from lib.youtube_music import get_charts, search_song
 
-basename = os.path.basename(__file__)
-name = os.path.splitext(basename)[0]
+name = "api"
 blueprint = Blueprint(name, __name__, url_prefix="/api")
 
 player = Player()
