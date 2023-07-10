@@ -1,9 +1,11 @@
+import os.path
 from typing import Any
 
 from ytmusicapi import YTMusic
 
-# ytmusic = YTMusic(language="ko")
-ytmusic = YTMusic("headers_auth.json", language="ko")
+ytmusic = YTMusic(
+    "headers_auth.json" if os.path.isfile("headers_auth.json") else None, language="ko"
+)
 
 
 def _convert_data(item: dict[str, Any]) -> dict[str, Any]:
