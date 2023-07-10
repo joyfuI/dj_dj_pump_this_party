@@ -9,6 +9,12 @@
 - 유튜브 뮤직 차트 (인기곡, 인기 뮤직비디오, 인기 급상승 동영상)
 - 자동재생 (마지막 곡 기준 유튜브 뮤직 알고리즘 중 현재 플레이리스트에 없는 곡 자동 추가. on/off 가능)
 
+## 다운로드
+
+[Releases](https://github.com/joyfuI/dj_dj_pump_this_party/releases)
+
+[VLC](https://www.videolan.org/) 필요. 유튜브 뮤직 인증토큰 필요(아래 문단 참고)
+
 ## 최초 세팅법
 
 > 준비물: [Python](https://www.python.org/), [VLC](https://www.videolan.org/), [Git](https://git-scm.com/)
@@ -60,7 +66,15 @@ flask run --host=0.0.0.0
 python app.py
 ```
 
-최초 세팅 이후부턴 `가상환경 진입` 후 `앱 실행`만 하면 된다.
+최초 세팅 이후부턴 `가상환경 진입` 후 `앱 실행`만 하면 된다. 아니면 앞 문단에 있는 릴리즈 파일을 실행해도 된다.
+
+## 단일 파일 패키징
+
+pyinstaller 사용
+
+```bash
+pyinstaller dj_dj_pump_this_party.spec
+```
 
 ## 환경변수
 
