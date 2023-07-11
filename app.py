@@ -6,8 +6,8 @@ from flask import Flask
 from controllers import api, dev, home
 
 load_dotenv(verbose=True)
-app = Flask(__name__)
 
+app = Flask(__name__)
 app.register_blueprint(home.blueprint)
 app.register_blueprint(api.blueprint)
 app.register_blueprint(dev.blueprint)

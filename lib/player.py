@@ -102,7 +102,7 @@ class Player:
             if self.auto_add:
                 # 자동재생
                 yt = self.get_current()
-                result = related_song(yt.video_id)  # 유튜브 뮤직의 알고리즘 목록을 가져옴
+                result = related_song(yt.video_id)  # 유튜브 뮤직의 알고리즘 목록
                 result = find(
                     lambda item: item["video_id"]
                     not in [yt.video_id for yt in self.playlist.playlist],
