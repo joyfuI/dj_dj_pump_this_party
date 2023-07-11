@@ -1,4 +1,5 @@
 import os
+import sys
 from typing import Callable, List, TypeVar
 
 
@@ -24,3 +25,10 @@ def find_index(pred: Callable[[T], bool], iterable: List[T]) -> int:
         if pred(item):
             return index
     return None
+
+
+def get_execute_path() -> str:
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(os.path.abspath(sys.executable))
+    else:
+        return os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))

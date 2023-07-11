@@ -3,9 +3,10 @@ from typing import Any
 
 from ytmusicapi import YTMusic
 
-ytmusic = YTMusic(
-    "headers_auth.json" if os.path.isfile("headers_auth.json") else None, language="ko"
-)
+from lib.utill import get_execute_path
+
+file_path = os.path.join(get_execute_path(), "headers_auth.json")
+ytmusic = YTMusic(file_path if os.path.isfile(file_path) else None, language="ko")
 
 
 def _convert_data(item: dict[str, Any]) -> dict[str, Any]:
